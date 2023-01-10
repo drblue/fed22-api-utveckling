@@ -1,0 +1,17 @@
+{
+  "name": "01-basics",
+  "version": "1.0.0",
+  "description": "",
+  "main": "01-globals.js",
+  "scripts": {
+    "start": "node 01-globals.js",
+    "dev": "nodemon 01-globals.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "WTFPL",
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
