@@ -11,7 +11,20 @@ const app = express()
 
 // GET /
 app.get('/', (req, res) => {
-	res.send("Oh, hi there ☺️")
+	// res.send("Oh, hi there ☺️")
+	res.send({
+		message: "Oh, hi there ☺️",
+		lolcats: "Are funny",
+		reactions_on_isaks_memes: [
+			"rotflol",
+			"yolo"
+		],
+	})
+})
+
+// POST /
+app.post('/', (req, res) => {
+	res.send("I'm no mailbox 😡")
 })
 
 // GET /coffee
