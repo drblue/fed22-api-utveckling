@@ -14,6 +14,9 @@ const PORT = 3000
 // Create a new Express app
 const app = express()
 
+// Parse any incoming JSON
+app.use(express.json())
+
 // Log information about all incoming requests using morgan
 app.use(morgan('dev'))
 
@@ -76,6 +79,16 @@ app.get('/users', (req, res) => {
 	res.send(users)
 })
 
+// POST /users
+// Create a new user
+app.post('/users', (req, res) => {
+	console.log("Create user?")
+
+	console.log("Body?", req.body)
+
+	res.send({})
+})
+
 // GET /users/:userId
 // Get the user with the id of userId
 app.get('/users/:userId', (req, res) => {
@@ -84,6 +97,8 @@ app.get('/users/:userId', (req, res) => {
 
 	// Find user in users array
 	const user = users.find(user => user.id === userId)
+
+	// TODO: If no user was found, respond with 404 and a message
 
 	// Send user as response
 	res.send(user)
