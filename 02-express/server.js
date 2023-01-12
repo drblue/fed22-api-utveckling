@@ -74,6 +74,13 @@ app.get('/badjoke', async (req, res) => {
 	}
 })
 
+// Catch requests where a route does not exist
+app.use((req, res) => {
+	res.status(404).send({
+		message: `Sorry, no route exists for ${req.method} ${req.path}`,
+	})
+})
+
 // Start listening for incoming requests on port 3000
 app.listen(PORT, () => {
 	console.log(`🥳 Yay, server started on localhost:${PORT}`)
