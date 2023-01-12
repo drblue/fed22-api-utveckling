@@ -2,24 +2,19 @@
  * Express Server
  */
 
-// Require Express
+// Require stuff
 const express = require('express')
 const _ = require('lodash')
 const fs = require('fs/promises')
+const morgan = require('morgan')
 const oneliners = require('./data/oneliners.json')
 const PORT = 3000
 
 // Create a new Express app
 const app = express()
 
-// Log information about all incoming requests
-app.use( (req, res, next) => {
-	const now = new Date()
-	console.log(`${now.toLocaleString()} ${req.method} ${req.path}`)
-
-	// We're done, pass request along
-	next()
-} )
+// Log information about all incoming requests using morgan
+app.use(morgan('dev'))
 
 // GET /
 app.get('/', (req, res) => {
