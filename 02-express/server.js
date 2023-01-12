@@ -4,6 +4,7 @@
 
 // Require Express
 const express = require('express')
+const _ = require('lodash')
 const oneliners = require('./data/oneliners.json')
 const PORT = 3000
 
@@ -36,7 +37,8 @@ app.get('/coffee', (req, res) => {
 // GET /joke
 app.get('/joke', (req, res) => {
 	// Get a random item from the array `oneliners`
-	const i = Math.floor(Math.random() * oneliners.length)
+	// const i = Math.floor(Math.random() * oneliners.length)
+	const i = _.random(0, oneliners.length - 1)
 	const joke = oneliners[i]
 
 	// Respond with a object containing the oneliner in the `joke` attribute
