@@ -4,6 +4,7 @@
 
 // Require Express
 const express = require('express')
+const oneliners = require('./data/oneliners.json')
 const PORT = 3000
 
 // Create a new Express app
@@ -30,6 +31,18 @@ app.post('/', (req, res) => {
 // GET /coffee
 app.get('/coffee', (req, res) => {
 	res.send("Is good for you!")
+})
+
+// GET /joke
+app.get('/joke', (req, res) => {
+	// Get a random item from the array `oneliners`
+	const i = Math.floor(Math.random() * oneliners.length)
+	const joke = oneliners[i]
+
+	// Respond with a object containing the oneliner in the `joke` attribute
+	res.send({
+		joke,	// joke: joke
+	})
 })
 
 // Start listening for incoming requests on port 3000
