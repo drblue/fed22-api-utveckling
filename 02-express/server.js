@@ -5,6 +5,7 @@
 // Require Express
 const express = require('express')
 const _ = require('lodash')
+const fs = require('fs/promises')
 const oneliners = require('./data/oneliners.json')
 const PORT = 3000
 
@@ -37,14 +38,31 @@ app.get('/coffee', (req, res) => {
 // GET /joke
 app.get('/joke', (req, res) => {
 	// Get a random item from the array `oneliners`
-	// const i = Math.floor(Math.random() * oneliners.length)
-	const i = _.random(0, oneliners.length - 1)
-	const joke = oneliners[i]
+	const joke = _.sample(oneliners)
 
 	// Respond with a object containing the oneliner in the `joke` attribute
 	res.send({
 		joke,	// joke: joke
 	})
+})
+
+// GET /badjoke (using filesystem and a textfile)
+app.get('/badjoke', async (req, res) => {
+	try {
+		const rawFile = await fs.readFile('./data/oneliners.txt', 'utf-8')
+		const jokes = rawFile.split('\n')
+
+		// Get a random item from the array `oneliners`
+		const joke = _.sample(jokes)
+
+		// Respond with a object containing the oneliner in the `joke` attribute
+		res.send({
+			joke,	// joke: joke
+		})
+
+	} catch (e) {
+		console.log("ERROR! ERROR! DANGER WILL ROBINSON!")
+	}
 })
 
 // Start listening for incoming requests on port 3000
