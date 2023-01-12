@@ -12,6 +12,15 @@ const PORT = 3000
 // Create a new Express app
 const app = express()
 
+// Log information about all incoming requests
+app.use( (req, res, next) => {
+	const now = new Date()
+	console.log(`${now.toLocaleString()} ${req.method} ${req.path}`)
+
+	// We're done, pass request along
+	next()
+} )
+
 // GET /
 app.get('/', (req, res) => {
 	// res.send("Oh, hi there ☺️")
