@@ -8,6 +8,7 @@ const _ = require('lodash')
 const fs = require('fs/promises')
 const morgan = require('morgan')
 const oneliners = require('./data/oneliners.json')
+const users = require('./data/users.json')
 const PORT = 3000
 
 // Create a new Express app
@@ -67,6 +68,25 @@ app.get('/badjoke', async (req, res) => {
 	} catch (e) {
 		console.log("ERROR! ERROR! DANGER WILL ROBINSON!")
 	}
+})
+
+// GET /users
+// List all users
+app.get('/users', (req, res) => {
+	res.send(users)
+})
+
+// GET /users/:userId
+// Get the user with the id of userId
+app.get('/users/:userId', (req, res) => {
+	// Cast userId parameter into a Number
+	const userId = Number(req.params.userId)
+
+	// Find user in users array
+	const user = users.find(user => user.id === userId)
+
+	// Send user as response
+	res.send(user)
 })
 
 // Catch requests where a route does not exist
