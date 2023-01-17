@@ -41,6 +41,8 @@ app.get('/', (req, res) => {
 
 /**
  * GET /movies
+ *
+ * Get all movies
  */
 app.get('/movies', async (req, res) => {
 	const db = await connection
@@ -49,10 +51,27 @@ app.get('/movies', async (req, res) => {
 })
 
 /**
- * @todo 1: Add route and logic for retrieving just one movie (ex: GET /movies/2)
+ * GET /movies/:movieId
  *
- * @todo 2: Handle if no movie with the requested id exists
+ * Get a single movie
+ *
+ * @todo ✅ 1: Add route and logic for retrieving just one movie (ex: GET /movies/4)
+ * @todo ✅ 2: Handle if no movie with the requested id exists
  */
+app.get('/movies/:movieId', async (req, res) => {
+	const { movieId } = req.params  // same as `const movieId = req.params.movieId`
+
+	const db = await connection
+	const [rows] = await db.query(`SELECT * FROM movies WHERE id="${movieId}"`)
+
+	// guard clause
+	if (!rows.length) {
+		res.status(404).send({ message: 'No such record exists.' })
+		return
+	}
+
+	res.send(rows[0])
+})
 
 // Catch requests where a route does not exist
 app.use((req, res) => {
