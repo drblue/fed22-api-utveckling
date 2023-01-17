@@ -5,10 +5,7 @@
 // Require stuff
 const express = require('express')
 const _ = require('lodash')
-const fs = require('fs/promises')
 const morgan = require('morgan')
-const oneliners = require('./data/oneliners.json')
-const users = require('./data/users.json')
 const PORT = 3000
 
 // Create a new Express app
