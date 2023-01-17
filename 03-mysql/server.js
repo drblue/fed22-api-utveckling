@@ -43,7 +43,16 @@ app.get('/', (req, res) => {
  * GET /movies
  */
 app.get('/movies', async (req, res) => {
+	const db = await connection
+	const [rows] = await db.query('SELECT * FROM movies')
+	res.send(rows)
 })
+
+/**
+ * @todo 1: Add route and logic for retrieving just one movie (ex: GET /movies/2)
+ *
+ * @todo 2: Handle if no movie with the requested id exists
+ */
 
 // Catch requests where a route does not exist
 app.use((req, res) => {
