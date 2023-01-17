@@ -62,7 +62,7 @@ app.get('/movies/:movieId', async (req, res) => {
 	const { movieId } = req.params  // same as `const movieId = req.params.movieId`
 
 	const db = await connection
-	const [rows] = await db.query(`SELECT * FROM movies WHERE id="${movieId}"`)
+	const [rows] = await db.query('SELECT * FROM movies WHERE id = ?', [ movieId ])
 
 	// guard clause
 	if (!rows.length) {
