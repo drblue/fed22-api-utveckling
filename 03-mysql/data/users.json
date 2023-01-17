@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "username": "johan",
+    "name": "Johan Nordström",
+    "email": "evil@haxx0r.org"
+  },
+  {
+    "id": 2,
+    "username": "pelle",
+    "name": "Pelle Svanslös",
+    "email": "pelle@svanslos.nu"
+  },
+  {
+    "id": 3,
+    "username": "kalle",
+    "name": "Kalle Anka",
+    "email": "kalle.anka@ankeborg.se"
+  }
+]
