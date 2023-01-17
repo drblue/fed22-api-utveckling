@@ -5,3 +5,4 @@
 .htaccess
 *.code-workspace
 *-nogit
+.env
