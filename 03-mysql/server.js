@@ -113,6 +113,10 @@ app.post('/movies', async (req, res) => {
 	console.log("Incoming!", req.body)
 	// const { title, genre, runtime, release_date } = req.body
 
+	// STEP 1: Check that all required data is present, otherwise fail with HTTP 400
+
+	// STEP 2: Check that the incoming data is of the correct data type
+
 	const db = await connection
 	const [result] = await db.query('INSERT INTO movies SET ?', {
 		title: req.body.title,
