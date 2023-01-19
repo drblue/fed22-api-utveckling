@@ -111,18 +111,38 @@ app.get('/movies/:movieId', async (req, res) => {
  */
 app.post('/movies', async (req, res) => {
 	console.log("Incoming!", req.body)
-	// const { title, genre, runtime, release_date } = req.body
+	const { title, genre, runtime, release_date } = req.body
 
 	// STEP 1: Check that all required data is present, otherwise fail with HTTP 400
+	if (typeof title !== "string" || typeof genre !== "string") {
+		res.status(400).send({
+			message: "Title or genre missing or not strings",
+		})
+		return
+	}
 
 	// STEP 2: Check that the incoming data is of the correct data type
+	if (runtime && typeof runtime !== "number") {
+		res.status(400).send({
+			message: "runtime has to be a number",
+		})
+		return
+	}
+
+	const releaseDate = new Date(release_date)
+	if (!releaseDate instanceof Date || isNaN(releaseDate)) {
+		res.status(400).send({
+			message: "release_date has to be a valid date",
+		})
+		return
+	}
 
 	const db = await connection
 	const [result] = await db.query('INSERT INTO movies SET ?', {
-		title: req.body.title,
-		genre: req.body.genre,
-		runtime: req.body.runtime,
-		release_date: req.body.release_date,
+		title,
+		genre,
+		runtime,
+		release_date,
 	})
 
 	// Send back the received data and append the id of the newly created record
