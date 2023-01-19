@@ -104,6 +104,30 @@ app.get('/movies/:movieId', async (req, res) => {
 	res.send(rows[0])
 })
 
+/**
+ * POST /movies
+ *
+ * Create a movie
+ */
+app.post('/movies', async (req, res) => {
+	console.log("Incoming!", req.body)
+	// const { title, genre, runtime, release_date } = req.body
+
+	const db = await connection
+	const [result] = await db.query('INSERT INTO movies SET title = ?, genre = ?, runtime = ?, release_date = ?', [
+		req.body.title,
+		req.body.genre,
+		req.body.runtime,
+		req.body.release_date,
+	])
+
+	// Send back the received data and append the id of the newly created record
+	res.status(201).send({
+		...req.body,
+		id: result.insertId,
+	})
+})
+
 // Catch requests where a route does not exist
 app.use((req, res) => {
 	res.status(404).send({
