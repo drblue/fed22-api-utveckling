@@ -170,6 +170,24 @@ app.patch('/movies/:movieId', async (req, res) => {
 	res.send(req.body)
 })
 
+/**
+ * DELETE /movies/:movieId
+ *
+ * Delete a movie
+ */
+app.delete('/movies/:movieId', async (req, res) => {
+	const db = await connection
+
+	try {
+		const result = db.query('DELETE FROM movies WHERE id = ?', [req.params.movieId])
+
+	} catch (err) {
+		res.status(500).send({ message: "Y U DELETE ALREADY DELETED MOVIE?!"})
+	}
+
+	res.send({ message: "K." })
+})
+
 // Catch requests where a route does not exist
 app.use((req, res) => {
 	res.status(404).send({
