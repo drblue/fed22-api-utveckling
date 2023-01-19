@@ -114,12 +114,12 @@ app.post('/movies', async (req, res) => {
 	// const { title, genre, runtime, release_date } = req.body
 
 	const db = await connection
-	const [result] = await db.query('INSERT INTO movies SET title = ?, genre = ?, runtime = ?, release_date = ?', [
-		req.body.title,
-		req.body.genre,
-		req.body.runtime,
-		req.body.release_date,
-	])
+	const [result] = await db.query('INSERT INTO movies SET ?', {
+		title: req.body.title,
+		genre: req.body.genre,
+		runtime: req.body.runtime,
+		release_date: req.body.release_date,
+	})
 
 	// Send back the received data and append the id of the newly created record
 	res.status(201).send({
