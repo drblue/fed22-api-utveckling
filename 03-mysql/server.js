@@ -152,6 +152,24 @@ app.post('/movies', async (req, res) => {
 	})
 })
 
+/**
+ * PATCH /movies/:movieId
+ *
+ * Update an existing movie
+ */
+app.patch('/movies/:movieId', async (req, res) => {
+	const db = await connection
+
+	try {
+		const result = db.query('UPDATE movies SET ? WHERE id = ?', [req.body, req.params.movieId])
+
+	} catch (err) {
+		res.status(500).send({ message: "Y U SEND BAD DATA?!"})
+	}
+
+	res.send(req.body)
+})
+
 // Catch requests where a route does not exist
 app.use((req, res) => {
 	res.status(404).send({
