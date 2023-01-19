@@ -40,6 +40,37 @@ app.get('/', (req, res) => {
 })
 
 /**
+ * GET /directors
+ *
+ * Get all directors
+ */
+app.get('/directors', async (req, res) => {
+	const db = await connection
+	const [rows] = await db.query('SELECT * FROM directors')
+	res.send(rows)
+})
+
+/**
+ * GET /directors/:directorId
+ *
+ * Get a single director
+ */
+app.get('/directors/:directorId', async (req, res) => {
+	const { directorId } = req.params
+
+	const db = await connection
+	const [rows] = await db.query('SELECT * FROM directors WHERE id = ?', [ directorId ])
+
+	// guard clause
+	if (!rows.length) {
+		res.status(404).send({ message: 'No such record exists.' })
+		return
+	}
+
+	res.send(rows[0])
+})
+
+/**
  * GET /movies
  *
  * Get all movies
