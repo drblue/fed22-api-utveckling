@@ -130,7 +130,7 @@ app.post('/movies', async (req, res) => {
 	}
 
 	const releaseDate = new Date(release_date)
-	if (!releaseDate instanceof Date || isNaN(releaseDate)) {
+	if (release_date && (!releaseDate instanceof Date || isNaN(releaseDate)) ) {
 		res.status(400).send({
 			message: "release_date has to be a valid date",
 		})
