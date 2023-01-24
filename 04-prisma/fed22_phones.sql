@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 20, 2023 at 09:46 AM
+-- Generation Time: Jan 23, 2023 at 01:58 PM
 -- Server version: 10.8.3-MariaDB
 -- PHP Version: 7.4.32
 
@@ -27,6 +27,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `phones`
 --
 
+DROP TABLE IF EXISTS `phones`;
 CREATE TABLE `phones` (
   `id` int(11) UNSIGNED NOT NULL,
   `manufacturer` varchar(255) NOT NULL,
@@ -40,12 +41,13 @@ CREATE TABLE `phones` (
 --
 
 INSERT INTO `phones` (`id`, `manufacturer`, `model`, `imei`, `user_id`) VALUES
-(1, 'Nokia', '8110', '536919122789773', NULL),
+(1, 'Nokia', '8110', '536919122789773', 4),
 (2, 'Chiqita', 'Banana Phone 3000', '983608827881831', 2),
 (3, 'Samsung', 'Galaxy S1337', '490824788037364', 3),
 (4, 'Ericsson', 'R310', '359156071226366', 4),
 (5, 'HTC', 'Hero', '867287033072344', NULL),
-(6, 'Apple', 'iPhone 6S', '355768071907615', 7);
+(6, 'Apple', 'iPhone 6S', '355768071907615', 7),
+(7, 'Apple', 'iPhone 14', '359219072534764', NULL);
 
 -- --------------------------------------------------------
 
@@ -53,6 +55,7 @@ INSERT INTO `phones` (`id`, `manufacturer`, `model`, `imei`, `user_id`) VALUES
 -- Table structure for table `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL
@@ -68,7 +71,8 @@ INSERT INTO `users` (`id`, `name`) VALUES
 (4, 'Thomas Anderson'),
 (5, 'Thanos'),
 (6, 'Korben Dallas'),
-(7, 'Leeloo');
+(7, 'Leeloo'),
+(8, 'Korben Dallas');
 
 --
 -- Indexes for dumped tables
@@ -95,13 +99,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `phones`
 --
 ALTER TABLE `phones`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
