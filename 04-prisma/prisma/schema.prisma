@@ -13,7 +13,7 @@ model phones {
   model        String @db.VarChar(255)
   imei         String @db.VarChar(15)
   user_id      Int?   @db.UnsignedInt
-  users        users? @relation(fields: [user_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "fk_users_id")
+  user         users? @relation(fields: [user_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "fk_users_id")
 
   @@index([user_id], map: "fk_users_id")
 }
