@@ -33,6 +33,30 @@ app.get('/phones', async (req, res) => {
 	}
 })
 
+/**
+ * GET /phones/:phoneId
+ *
+ * Get a single phone
+ */
+app.get('/phones/:phoneId', async (req, res) => {
+	const phoneId = Number(req.params.phoneId)
+
+	try {
+		const phone = await prisma.phones.findUniqueOrThrow({
+			where: {
+				id: phoneId,
+			}
+		})
+
+		res.send(phone)
+
+	} catch (err) {
+		console.error(err)
+		res.status(404).send({
+			message: "Not found",
+		})
+	}
+})
 
 /**
  * GET /users
@@ -48,6 +72,31 @@ app.get('/users', async (req, res) => {
 		console.error(err)
 		res.status(500).send({
 			message: "Something went wrong querying the database.",
+		})
+	}
+})
+
+/**
+ * GET /users/:userId
+ *
+ * Get a single user
+ */
+app.get('/users/:userId', async (req, res) => {
+	const userId = Number(req.params.userId)
+
+	try {
+		const user = await prisma.users.findUniqueOrThrow({
+			where: {
+				id: userId,
+			}
+		})
+
+		res.send(user)
+
+	} catch (err) {
+		console.error(err)
+		res.status(404).send({
+			message: "Not found",
 		})
 	}
 })
