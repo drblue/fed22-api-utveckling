@@ -15,4 +15,41 @@ app.get('/', (req, res) => {
 	})
 })
 
+/**
+ * GET /phones
+ *
+ * Get all phones
+ */
+app.get('/phones', async (req, res) => {
+	try {
+		const phones = await prisma.phones.findMany()
+		res.send(phones)
+
+	} catch (err) {
+		console.error(err)
+		res.status(500).send({
+			message: "Something went wrong querying the database.",
+		})
+	}
+})
+
+
+/**
+ * GET /users
+ *
+ * Get all users
+ */
+app.get('/users', async (req, res) => {
+	try {
+		const users = await prisma.users.findMany()
+		res.send(users)
+
+	} catch (err) {
+		console.error(err)
+		res.status(500).send({
+			message: "Something went wrong querying the database.",
+		})
+	}
+})
+
 export default app
