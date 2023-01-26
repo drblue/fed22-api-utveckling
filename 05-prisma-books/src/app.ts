@@ -39,6 +39,7 @@ app.post('/authors', async (req, res) => {
 		const author = await prisma.author.create({
 			data: {
 				name: req.body.name,
+				birthdate: req.body.birthdate,
 			}
 		})
 		res.send(author)
@@ -95,6 +96,8 @@ app.post('/books', async (req, res) => {
 			data: {
 				title: req.body.title,
 				pages: req.body.pages,
+				isbn: req.body.isbn,
+				publisherId: req.body.publisherId,
 			}
 		})
 		res.send(book)
