@@ -25,11 +25,13 @@ router.get('/', async (req, res) => {
  * POST /authors
  */
 router.post('/', async (req, res) => {
+	const birthdate = (new Date(req.body.birthdate)).toISOString()
+
 	try {
 		const author = await prisma.author.create({
 			data: {
 				name: req.body.name,
-				birthdate: req.body.birthdate,
+				birthdate: birthdate,
 			}
 		})
 		res.send(author)
