@@ -1,54 +1,20 @@
 import express from 'express'
-import prisma from '../prisma'
+import { index, show, store } from '../controllers/publisher_controller'
 const router = express.Router()
 
 /**
  * GET /publishers
  */
-router.get('/', async (req, res) => {
-	try {
-		const publishers = await prisma.publisher.findMany()
-		res.send(publishers)
-	} catch (err) {
-		res.status(500).send({ message: "Something went wrong" })
-	}
-})
+router.get('/', index)
 
 /**
  * GET /publishers/:publisherId
  */
-router.get('/:publisherId', async (req, res) => {
-	const publisherId = Number(req.params.publisherId)
-
-	try {
-		const publisher = await prisma.publisher.findUniqueOrThrow({
-			where: {
-				id: publisherId,
-			},
-			include: {
-				books: true,
-			}
-		})
-		res.send(publisher)
-	} catch (err) {
-		res.status(404).send({ message: "Not found" })
-	}
-})
+router.get('/:publisherId', show)
 
 /**
  * POST /publishers
  */
-router.post('/', async (req, res) => {
-	try {
-		const publisher = await prisma.publisher.create({
-			data: {
-				name: req.body.name,
-			}
-		})
-		res.send(publisher)
-	} catch (err) {
-		res.status(500).send({ message: "Something went wrong" })
-	}
-})
+router.post('/', store)
 
 export default router
