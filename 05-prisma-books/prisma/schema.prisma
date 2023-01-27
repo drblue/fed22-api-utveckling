@@ -21,7 +21,6 @@ model Book {
 model Author {
   id         Int        @id @default(autoincrement()) @db.UnsignedInt
   name       String
-  birthdate  DateTime?  @db.Date
   books      Book[]
 }
 

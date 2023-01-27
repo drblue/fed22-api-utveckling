@@ -34,13 +34,10 @@ export const show = async (req: Request, res: Response) => {
  * Create a author
  */
 export const store = async (req: Request, res: Response) => {
-	const birthdate = (new Date(req.body.birthdate)).toISOString()
-
 	try {
 		const author = await prisma.author.create({
 			data: {
 				name: req.body.name,
-				birthdate: birthdate,
 			}
 		})
 		res.send(author)
