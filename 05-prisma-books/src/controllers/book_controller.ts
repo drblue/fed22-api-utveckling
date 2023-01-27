@@ -15,11 +15,14 @@ export const index = async (req: Request, res: Response) => {
 	try {
 		const books = await prisma.book.findMany()
 
-		res.send(books)
+		res.send({
+			status: "success",
+			data: books,
+		})
 
 	} catch (err) {
 		debug("Error thrown when finding books", err)
-		res.status(500).send({ message: "Something went wrong" })
+		res.status(500).send({ status: "error", message: "Something went wrong" })
 	}
 }
 
@@ -40,11 +43,14 @@ export const show = async (req: Request, res: Response) => {
 			}
 		})
 
-		res.send(book)
+		res.send({
+			status: "success",
+			data: book,
+		})
 
 	} catch (err) {
 		debug("Error thrown when finding book with id %o: %o", req.params.bookId, err)
-		return res.status(404).send({ message: "Not found" })
+		return res.status(404).send({ status: "error", message: "Not found" })
 	}
 }
 
@@ -62,11 +68,14 @@ export const store = async (req: Request, res: Response) => {
 			}
 		})
 
-		res.send(book)
+		res.send({
+			status: "success",
+			data: book,
+		})
 
 	} catch (err) {
 		debug("Error thrown when creating a book %o: %o", req.body, err)
-		res.status(500).send({ message: "Something went wrong" })
+		res.status(500).send({ status: "error", message: "Something went wrong" })
 	}
 }
 
