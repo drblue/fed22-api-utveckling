@@ -1,67 +1,20 @@
 import express from 'express'
-import prisma from '../prisma'
+import { index, show, store } from '../controllers/book_controller'
 const router = express.Router()
 
 /**
  * GET /books
  */
-router.get('/', async (req, res) => {
-	try {
-		const books = await prisma.book.findMany()
-
-		res.send(books)
-
-	} catch (err) {
-		console.error(err)
-		res.status(500).send({ message: "Something went wrong" })
-	}
-})
+router.get('/', index)
 
 /**
  * GET /books/:bookId
  */
-router.get('/:bookId', async (req, res) => {
-	const bookId = Number(req.params.bookId)
-
-	try {
-		const book = await prisma.book.findUniqueOrThrow({
-			where: {
-				id: bookId,
-			},
-			include: {
-				authors: true,
-				publisher: true,
-			}
-		})
-
-		res.send(book)
-
-	} catch (err) {
-		console.error(err)
-		return res.status(404).send({ message: "Not found" })
-	}
-})
+router.get('/:bookId', show)
 
 /**
  * POST /books
  */
-router.post('/', async (req, res) => {
-	try {
-		const book = await prisma.book.create({
-			data: {
-				title: req.body.title,
-				pages: req.body.pages,
-				isbn: req.body.isbn,
-				publisherId: req.body.publisherId,
-			}
-		})
-
-		res.send(book)
-
-	} catch (err) {
-		console.error(err)
-		res.status(500).send({ message: "Something went wrong" })
-	}
-})
+router.post('/', store)
 
 export default router
