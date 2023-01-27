@@ -2,9 +2,11 @@
   "name": "05-prisma-books",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "build/server.js",
   "scripts": {
+    "build": "tsc",
     "dev": "cross-env DEBUG=prisma-books:* nodemon server.ts",
+    "start": "node build/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "prisma": {
