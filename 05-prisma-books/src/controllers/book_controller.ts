@@ -65,6 +65,7 @@ export const store = async (req: Request, res: Response) => {
 				pages: req.body.pages,
 				isbn: req.body.isbn,
 				publisherId: req.body.publisherId,
+				cover: req.body.cover,
 			}
 		})
 

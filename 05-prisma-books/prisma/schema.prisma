@@ -15,6 +15,7 @@ model Book {
   authors      Author[]
   publisherId  Int        @db.UnsignedInt
   publisher    Publisher  @relation(fields: [publisherId], references: [id])
+  cover        Json?      @default("{}")
 }
 
 model Author {
