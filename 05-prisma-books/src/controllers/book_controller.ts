@@ -1,8 +1,12 @@
 /**
- * Book Template
+ * Book Controller
  */
 import { Request, Response } from 'express'
+import Debug from 'debug'
 import prisma from '../prisma'
+
+// Create a new debug instance
+const debug = Debug('prisma-books:book_controller')
 
 /**
  * Get all books
@@ -14,7 +18,7 @@ export const index = async (req: Request, res: Response) => {
 		res.send(books)
 
 	} catch (err) {
-		console.error(err)
+		debug("Error thrown when finding books", err)
 		res.status(500).send({ message: "Something went wrong" })
 	}
 }
@@ -39,7 +43,7 @@ export const show = async (req: Request, res: Response) => {
 		res.send(book)
 
 	} catch (err) {
-		console.error(err)
+		debug("Error thrown when finding book with id %o: %o", req.params.bookId, err)
 		return res.status(404).send({ message: "Not found" })
 	}
 }
@@ -61,7 +65,7 @@ export const store = async (req: Request, res: Response) => {
 		res.send(book)
 
 	} catch (err) {
-		console.error(err)
+		debug("Error thrown when creating a book %o: %o", req.body, err)
 		res.status(500).send({ message: "Something went wrong" })
 	}
 }
