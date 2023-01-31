@@ -34,15 +34,11 @@ router.use('/publishers', publishers)
 
 /**
  * /register
- *
- * @todo add validation rules for name, email and password
  */
 router.post('/register', [
-	// place validation rules here
-
-	// name required + at least 3 chars
-	// email required + valid email
-	// password required + at least 6 chars
+	body('name').isString().bail().isLength({ min: 3 }),
+	body('email').isEmail(),
+	body('password').isString().bail().isLength({ min: 6 }),
 ], register)
 
 export default router
