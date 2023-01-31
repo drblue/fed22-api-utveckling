@@ -1,9 +1,9 @@
 import express from "express"
-import { body } from 'express-validator'
 import authors from './authors'
 import books from './books'
 import publishers from './publishers'
 import { register } from '../controllers/register_controller'
+import { createUserRules } from '../validations/user_rules'
 
 // instantiate a new router
 const router = express.Router()
@@ -35,10 +35,6 @@ router.use('/publishers', publishers)
 /**
  * /register
  */
-router.post('/register', [
-	body('name').isString().bail().isLength({ min: 3 }),
-	body('email').isEmail(),
-	body('password').isString().bail().isLength({ min: 6 }),
-], register)
+router.post('/register', createUserRules, register)
 
 export default router
