@@ -4,6 +4,7 @@
 import Debug from 'debug'
 import { Request, Response } from 'express'
 import { validationResult } from 'express-validator'
+import { getAuthors } from '../services/author_service'
 import prisma from '../prisma'
 
 // Create a new debug instance
@@ -14,7 +15,7 @@ const debug = Debug('prisma-books:author_controller')
  */
 export const index = async (req: Request, res: Response) => {
 	try {
-		const authors = await prisma.author.findMany()
+		const authors = await getAuthors()
 		res.send(authors)
 	} catch (err) {
 		res.status(500).send({ message: "Something went wrong" })
