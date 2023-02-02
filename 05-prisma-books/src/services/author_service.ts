@@ -17,6 +17,14 @@ export const getAuthors = async () => {
  * @param authorId The id of the author to get
  */
 export const getAuthor = async (authorId: number) => {
+	return await prisma.author.findUniqueOrThrow({
+		where: {
+			id: authorId,
+		},
+		include: {
+			books: true,
+		}
+	})
 }
 
 /**
@@ -25,4 +33,9 @@ export const getAuthor = async (authorId: number) => {
  * @param data Author Details
  */
 export const createAuthor = async (data: CreateAuthorData) => {
+	return await prisma.author.create({
+		data: {
+			name: data.name,
+		}
+	})
 }
