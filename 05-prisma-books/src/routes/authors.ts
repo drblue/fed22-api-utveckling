@@ -3,13 +3,18 @@
  */
 import express from 'express'
 import { body } from 'express-validator'
-import { index, store, addBook } from '../controllers/author_controller'
+import { index, show, store, addBook } from '../controllers/author_controller'
 const router = express.Router()
 
 /**
  * GET /authors
  */
 router.get('/', index)
+
+/**
+ * GET /authors/:authorId
+ */
+router.get('/:authorId', show)
 
 /**
  * POST /authors
