@@ -70,6 +70,7 @@ export const basic = async (req: Request, res: Response, next: NextFunction) => 
 	debug("Password for user %s was correct 🥳", email)
 
 	// Attach User to Request 🤩
+	req.user = user
 
 	// Nothing to see here, move along... ✅
 	next()
