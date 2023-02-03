@@ -1,6 +1,7 @@
 /**
  * HTTP Basic Authentication Middleware
  */
+import bcrypt from 'bcrypt'
 import Debug from 'debug'
 import { Request, Response, NextFunction } from 'express'
 import { getUserByEmail } from '../../services/user_service'
@@ -57,6 +58,16 @@ export const basic = async (req: Request, res: Response, next: NextFunction) => 
 	}
 
 	// Verify hash against credentials, otherwise bail 🛑
+	const result = await bcrypt.compare(password, user.password)
+	if (!result) {
+		debug("Password for user %s didn't match", email)
+
+		return res.status(401).send({
+			status: "fail",
+			data: "Authorization required",
+		})
+	}
+	debug("Password for user %s was correct 🥳", email)
 
 	// Attach User to Request 🤩
 
