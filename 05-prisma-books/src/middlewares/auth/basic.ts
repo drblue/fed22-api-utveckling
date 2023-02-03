@@ -3,10 +3,11 @@
  */
 import Debug from 'debug'
 import { Request, Response, NextFunction } from 'express'
+import { getUserByEmail } from '../../services/user_service'
 
 const debug = Debug('prisma-books:basic')
 
-export const basic = (req: Request, res: Response, next: NextFunction) => {
+export const basic = async (req: Request, res: Response, next: NextFunction) => {
 	debug("Hello from auth/basic!")
 
 	// Make sure Authorization header exists, otherwise bail 🛑
@@ -45,6 +46,15 @@ export const basic = (req: Request, res: Response, next: NextFunction) => {
 	const [email, password] = decodedPayload.split(":")
 
 	// Get user from database, otherwise bail 🛑
+	const user = await getUserByEmail(email)
+	if (!user) {
+		debug("User %s does not exist", email)
+
+		return res.status(401).send({
+			status: "fail",
+			data: "Authorization required",
+		})
+	}
 
 	// Verify hash against credentials, otherwise bail 🛑
 
