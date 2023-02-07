@@ -48,7 +48,9 @@ export const login = async (req: Request, res: Response) => {
 			message: "No access token secret defined",
 		})
 	}
-	const access_token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET)
+	const access_token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+		expiresIn: process.env.ACCESS_TOKEN_LIFETIME || '4h',
+	})
 
 	// respond with access-token
 	res.send({
