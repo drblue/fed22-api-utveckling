@@ -38,6 +38,7 @@ export const login = async (req: Request, res: Response) => {
 	const payload: JwtPayload = {
 		sub: user.id,     // sub = subject the token is issued for
 		name: user.name,
+		email: user.email,
 	}
 
 	// sign payload with secret and get access token

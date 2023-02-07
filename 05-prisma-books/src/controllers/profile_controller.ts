@@ -14,11 +14,7 @@ export const getProfile = async (req: Request, res: Response) => {
 
 	res.send({
 		status: "success",
-		data: {
-			id: req.user.id,
-			name: req.user.name,
-			email: req.user.email,
-		},
+		data: req.user,
 	})
 }
 
