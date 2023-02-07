@@ -4,7 +4,7 @@ import books from './books'
 import profile from './profile'
 import publishers from './publishers'
 import { login, register } from '../controllers/user_controller'
-import { basic } from "../middlewares/auth/basic"
+import { validateToken } from '../middlewares/auth/jwt'
 import { createUserRules } from '../validations/user_rules'
 
 // instantiate a new router
@@ -32,7 +32,7 @@ router.use('/books', books)
 /**
  * /profile
  */
-router.use('/profile', basic, profile)
+router.use('/profile', validateToken, profile)
 
 /**
  * /publishers
