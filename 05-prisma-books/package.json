@@ -4,7 +4,9 @@
   "description": "",
   "main": "build/server.js",
   "scripts": {
-    "build": "tsc",
+    "build": "env-cmd --silent bash scripts/build.sh",
+    "build-app": "tsc",
+    "migrate": "npx prisma migrate deploy",
     "dev": "cross-env DEBUG=prisma-books:* nodemon server.ts",
     "start": "node build/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -21,6 +23,7 @@
     "@types/debug": "^4.1.7",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/node": "^18.11.18",
+    "env-cmd": "^10.1.0",
     "nodemon": "^2.0.20",
     "prisma": "^4.9.0",
     "ts-node": "^10.9.1",
