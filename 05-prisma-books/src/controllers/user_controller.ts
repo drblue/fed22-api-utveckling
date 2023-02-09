@@ -2,12 +2,15 @@
  * User Controller
  */
 import bcrypt from 'bcrypt'
+import Debug from 'debug'
 import { Request, Response } from 'express'
 import { matchedData, validationResult } from 'express-validator'
 import jwt from 'jsonwebtoken'
 import prisma from '../prisma'
 import { JwtPayload } from '../types'
 import { createUser, getUserByEmail } from './../services/user_service';
+
+const debug = Debug('prisma-books:user_controller')
 
 /**
  * Login a user
@@ -122,20 +125,63 @@ export const register = async (req: Request, res: Response) => {
  */
 export const refresh = (req: Request, res: Response) => {
 	// Make sure authorization header exists
+	if (!req.headers.authorization) {
+		debug("Authorization header missing")
+
+		return res.status(401).send({
+			status: "fail",
+			data: "Authorization required",
+		})
+	}
 
 	// Split authorization header on ' '
+	const [authSchema, token] = req.headers.authorization.split(" ")
 
 	// Make sure Authorization schema is "Bearer"
+	if (authSchema.toLowerCase() !== "bearer") {
+		debug("Authorization schema isn't Bearer")
+
+		return res.status(401).send({
+			status: "fail",
+			data: "Authorization required",
+		})
+	}
 
 	// Verify refresh-token and get refresh-token payload
+	try {
+		// Verify refresh-token using refresh-token secret
+		const payload = (jwt.verify(token, process.env.REFRESH_TOKEN_SECRET || "") as unknown) as JwtPayload
 
-	// Construct access-token payload
+		// remove `iat` and `exp` from payload
+		delete payload.iat
+		delete payload.exp
 
-	// Issue a new access token
+		// Issue a new access token
+		if (!process.env.ACCESS_TOKEN_SECRET) {
+			return res.status(500).send({
+				status: "error",
+				message: "No access token secret defined",
+			})
+		}
+		const access_token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+			expiresIn: process.env.ACCESS_TOKEN_LIFETIME || '4h',
+		})
 
-	// Respond with new access token
-	res.send({
-		status: "success",
-		data: {},
-	})
+		// Respond with new access token
+		res.send({
+			status: "success",
+			data: {
+				access_token,
+			},
+		})
+
+	} catch (err) {
+		debug("Token failed verification", err)
+
+		return res.status(401).send({
+			status: "fail",
+			data: "Authorization required",
+		})
+	}
+
 }
