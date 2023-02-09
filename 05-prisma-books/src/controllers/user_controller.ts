@@ -41,7 +41,7 @@ export const login = async (req: Request, res: Response) => {
 		email: user.email,
 	}
 
-	// sign payload with secret and get access token
+	// sign payload with access-token secret and get access-token
 	if (!process.env.ACCESS_TOKEN_SECRET) {
 		return res.status(500).send({
 			status: "error",
@@ -52,11 +52,23 @@ export const login = async (req: Request, res: Response) => {
 		expiresIn: process.env.ACCESS_TOKEN_LIFETIME || '4h',
 	})
 
-	// respond with access-token
+	// sign payload with refresh-token secret and get refresh-token
+	if (!process.env.REFRESH_TOKEN_SECRET) {
+		return res.status(500).send({
+			status: "error",
+			message: "No refresh token secret defined",
+		})
+	}
+	const refresh_token = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
+		expiresIn: process.env.REFRESH_TOKEN_LIFETIME || '1d',
+	})
+
+	// respond with access- and refresh-token
 	res.send({
 		status: "success",
 		data: {
 			access_token,  // access_token: access_token
+			refresh_token,
 		}
 	})
 }
@@ -99,4 +111,31 @@ export const register = async (req: Request, res: Response) => {
 	} catch (err) {
 		return res.status(500).send({ status: "error", message: "Could not create user in database" })
 	}
+}
+
+/**
+ * Refresh token
+ *
+ * Receives a refresh-token and issues a new access-token
+ *
+ * Authorization: Bearer <refresh-token>
+ */
+export const refresh = (req: Request, res: Response) => {
+	// Make sure authorization header exists
+
+	// Split authorization header on ' '
+
+	// Make sure Authorization schema is "Bearer"
+
+	// Verify refresh-token and get refresh-token payload
+
+	// Construct access-token payload
+
+	// Issue a new access token
+
+	// Respond with new access token
+	res.send({
+		status: "success",
+		data: {},
+	})
 }
