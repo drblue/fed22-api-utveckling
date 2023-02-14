@@ -15,6 +15,6 @@ router.get('/:movieId', movieController.show)
 /**
  * POST /movies
  */
-router.post('/', () => {})
+router.post('/', movieController.store)
 
 export default router

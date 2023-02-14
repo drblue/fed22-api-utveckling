@@ -8,8 +8,8 @@ export interface IMovie extends Document {
 
 const MovieSchema: Schema = new Schema<IMovie>({
 	title: { type: String, required: true },
-	runtime: Number,
-	releaseYear: Number,
+	runtime: { type: Number, min: 1 },
+	releaseYear: { type: Number, min: 1888 },
 })
 
 export const Movie = model<IMovie>('Movie', MovieSchema)

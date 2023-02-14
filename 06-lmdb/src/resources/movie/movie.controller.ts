@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import Debug from 'debug'
 import { Movie } from './movie.model'
+import mongoose from 'mongoose'
 
 const debug = Debug('lmdb:movie.controller')
 
@@ -49,5 +50,34 @@ export const show = async (req: Request, res: Response) => {
 	} catch (err) {
 		debug("Error thrown when finding movie '%s': %o", movieId, err)
 		res.status(500).send({ status: "error", message: "Error thrown when finding movie" })
+	}
+}
+
+/**
+ * Create a movie
+ *
+ * POST /movies
+ */
+export const store = async (req: Request, res: Response) => {
+	try {
+		// Create and save a new Movie
+		const movie = await new Movie(req.body).save()
+
+		// Respond with the newly created Movie
+		res.status(201).send({
+			status: "success",
+			data: movie,
+		})
+
+		const err = new Error()
+
+	} catch (err) {
+		debug("Error thrown when creating movie", err)
+
+		if (err instanceof mongoose.Error.ValidationError) {
+			return res.status(400).send({ status: "error", message: err.message })
+		}
+
+		res.status(500).send({ status: "error", message: "Error thrown when creating a new movie" })
 	}
 }
