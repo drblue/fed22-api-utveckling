@@ -34,7 +34,13 @@ Get movie details, including actors.
 {
   "title": "2001: A Space Odessey",
   "runtime": 185,
-  "actors": []
+  "releaseYear": 1968
+}
+```
+
+```json
+{
+  "title": "Mongooses are actually not that cute",
 }
 ```
 
