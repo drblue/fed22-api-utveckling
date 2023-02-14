@@ -11,3 +11,5 @@ router.get('/', (req, res) => {
 		message: "I AM MOVIE-DB-API, GIVES POPCORN",
 	})
 })
+
+export default router
