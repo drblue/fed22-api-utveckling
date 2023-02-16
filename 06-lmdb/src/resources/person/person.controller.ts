@@ -13,6 +13,7 @@ export const index = async (req: Request, res: Response) => {
 	try {
 		// Find all people
 		const people = await Person.find()
+			.sort('name')
 
 		res.send({
 			status: "success",

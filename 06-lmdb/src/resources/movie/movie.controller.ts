@@ -12,6 +12,8 @@ export const index = async (req: Request, res: Response) => {
 	try {
 		// Find all movies
 		const movies = await Movie.find()
+			// .sort({ title: 1, releaseYear: 1 })
+			.sort('title')
 
 		res.send({
 			status: "success",
@@ -36,6 +38,7 @@ export const show = async (req: Request, res: Response) => {
 		// Find a single movie
 		const movie = await Movie.findById(movieId)
 			.populate('director', 'name')
+			.populate('actors', 'name')
 
 		// If no movie was found, report 404
 		if (!movie) {
