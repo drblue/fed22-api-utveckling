@@ -45,12 +45,16 @@ export const show = async (req: Request, res: Response) => {
 		// Get movies where person is director
 		const directing = await Movie.find({ director: personId }, ['title', 'releaseYear'])
 
+		// Get movies where person is actor
+		const acting = await Movie.find({ actors: personId }, ['title', 'releaseYear'])
+
 		// Respond with person
 		res.send({
 			status: "success",
 			data: {
 				person,
 				directing,
+				acting,
 			},
 		})
 

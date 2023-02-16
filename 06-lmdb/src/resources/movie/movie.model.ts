@@ -8,6 +8,7 @@ export interface IMovie extends Document {
 	genres: string[],
 	watched?: Date,
 	director?: IPerson['_id'],
+	actors?: IPerson['_id'][],
 }
 
 const MovieSchema: Schema = new Schema<IMovie>({
@@ -49,6 +50,12 @@ const MovieSchema: Schema = new Schema<IMovie>({
 		type: Schema.Types.ObjectId,
 		ref: 'Person',
 	},
+	actors: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'Person',
+		}
+	],
 })
 
 export const Movie = model<IMovie>('Movie', MovieSchema)
