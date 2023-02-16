@@ -1,4 +1,5 @@
 import { model, Schema, Document } from 'mongoose'
+import { IPerson } from '../person/person.model'
 
 export interface IMovie extends Document {
 	title: string,
@@ -6,6 +7,7 @@ export interface IMovie extends Document {
 	releaseYear?: number,
 	genres: string[],
 	watched?: Date,
+	director?: IPerson['_id'],
 }
 
 const MovieSchema: Schema = new Schema<IMovie>({
@@ -42,7 +44,11 @@ const MovieSchema: Schema = new Schema<IMovie>({
 		default() {
 			return Date.now()
 		},
-	}
+	},
+	director: {
+		type: Schema.Types.ObjectId,
+		ref: 'Person',
+	},
 })
 
 export const Movie = model<IMovie>('Movie', MovieSchema)

@@ -1,5 +1,5 @@
 import express from "express"
-import directorRouter from './resources/director/director.router'
+import personRouter from './resources/person/person.router'
 import movieRouter from './resources/movie/movie.router'
 
 // instantiate a new router
@@ -15,9 +15,9 @@ router.get('/', async (req, res) => {
 })
 
 /**
- * /directors
+ * /people
  */
-router.use('/directors', directorRouter)
+router.use('/people', personRouter)
 
 /**
  * /movies
