@@ -9,7 +9,7 @@ const DirectorSchema: Schema = new Schema<IDirector>({
 		type: String,
 		required: true,
 		trim: true,
-		minlength: 3,
+		minlength: 5,
 	},
 })
 
