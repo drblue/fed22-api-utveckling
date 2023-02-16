@@ -82,3 +82,37 @@ export const store = async (req: Request, res: Response) => {
 		res.status(500).send({ status: "error", message: "Error thrown when creating a new movie" })
 	}
 }
+
+/**
+ * Update a movie
+ *
+ * PATCH /movies/:movieId
+ */
+export const update = async (req: Request, res: Response) => {
+	const movieId = req.params.movieId
+
+	try {
+		// Update Movie
+		const movie = await Movie.findByIdAndUpdate(movieId, req.body)
+
+		// If no movie was found, report 404
+		if (!movie) {
+			return res.sendStatus(404)
+		}
+
+		// Respond with the newly created Movie
+		res.status(200).send({
+			status: "success",
+			data: null,
+		})
+
+	} catch (err) {
+		debug("Error thrown when updaing movie", err)
+
+		if (err instanceof mongoose.Error.ValidationError) {
+			return res.status(400).send({ status: "error", message: err.message })
+		}
+
+		res.status(500).send({ status: "error", message: "Error thrown when updating movie" })
+	}
+}

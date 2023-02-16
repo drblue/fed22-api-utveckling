@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import Debug from 'debug'
+import { Movie } from '../movie/movie.model'
 import { Person } from './person.model'
 import mongoose from 'mongoose'
 
@@ -41,10 +42,16 @@ export const show = async (req: Request, res: Response) => {
 			return res.sendStatus(404)
 		}
 
+		// Get movies where person is director
+		const directing = await Movie.find({ director: personId }, ['title', 'releaseYear'])
+
 		// Respond with person
 		res.send({
 			status: "success",
-			data: person,
+			data: {
+				person,
+				directing,
+			},
 		})
 
 	} catch (err) {
