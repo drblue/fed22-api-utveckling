@@ -17,12 +17,14 @@ const server = http.createServer(app)
 /**
  * Connect to database, and then listen on provided port, on all network interfaces.
  */
-connect().then(() => {
-	server.listen(PORT)
-}).catch(err => {
-	console.error(err)
-	process.exit(1)
-})
+connect()
+	.then(() => {
+		// Start responding to incoming requests
+		server.listen(PORT)
+	}).catch(err => {
+		console.error(err)
+		process.exit(1)
+	})
 
 /**
  * Event listener for HTTP server "error" event.
