@@ -32,6 +32,7 @@
 		flex-direction: column;
 		flex-grow: 1;
 		border-right: 1px solid #555;
+		overflow-y: scroll;
 
 		h2 {
 			background-color: $heading-bg-color;
