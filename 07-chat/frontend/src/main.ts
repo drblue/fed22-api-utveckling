@@ -8,9 +8,20 @@ import {
 
 const SOCKET_HOST = import.meta.env.VITE_APP_SOCKET_HOST
 
+// Forms
 const messageEl = document.querySelector('#message') as HTMLInputElement
 const messageFormEl = document.querySelector('#message-form') as HTMLFormElement
+const usernameFormEl = document.querySelector('#username-form') as HTMLFormElement
+
+// Lists
 const messagesEl = document.querySelector('#messages') as HTMLUListElement
+
+// Views
+const chatWrapperEl = document.querySelector('#chat-wrapper') as HTMLDivElement
+const startEl = document.querySelector('#start') as HTMLDivElement
+
+// User Details
+let username: string | null = null
 
 // Connect to Socket.IO server
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(SOCKET_HOST)
@@ -36,6 +47,18 @@ const addMessageToChat = (message: ChatMessageData, ownMessage = false) => {
 
 	// Scroll to the bottom of the messages list
 	messageEl.scrollIntoView({ behavior: 'smooth' })
+}
+
+// Show chat view
+const showChatView = () => {
+	startEl.classList.add('hide')
+	chatWrapperEl.classList.remove('hide')
+}
+
+// Show welcome view
+const showWelcomeView = () => {
+	chatWrapperEl.classList.add('hide')
+	startEl.classList.remove('hide')
 }
 
 // Listen for when connection is established
@@ -89,4 +112,15 @@ messageFormEl.addEventListener('submit', e => {
 	// Clear the input field and focus
 	messageEl.value = ''
 	messageEl.focus()
+})
+
+// Get username from form and then show chat
+usernameFormEl.addEventListener('submit', e => {
+	e.preventDefault()
+
+	// Get username
+	username = (usernameFormEl.querySelector('#username') as HTMLInputElement).value.trim()
+
+	// Show chat view
+	showChatView()
 })
