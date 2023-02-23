@@ -18,6 +18,6 @@ export interface InterServerEvents {
 // Message payload
 export interface ChatMessageData {
 	content: string
-	// timestamp: number
+	timestamp: number
 	username: string
 }
