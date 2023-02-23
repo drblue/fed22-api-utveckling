@@ -40,7 +40,9 @@ const addMessageToChat = (message: ChatMessageData, ownMessage = false) => {
 	}
 
 	// Set the text content of the LI element to the message
-	messageEl.textContent = message.content
+	messageEl.innerHTML = ownMessage
+		? `<span class="content">${message.content}</span>`
+		: `<span class="user">${message.username}</span><span class="content">${message.content}</span>`
 
 	// Append the LI element to the messages element
 	messagesEl.appendChild(messageEl)
@@ -90,13 +92,14 @@ socket.on('chatMessage', (message) => {
 messageFormEl.addEventListener('submit', e => {
 	e.preventDefault()
 
-	if (!messageEl.value.trim()) {
+	if (!messageEl.value.trim() || !username) {
 		return
 	}
 
 	// Construct message payload
 	const message: ChatMessageData = {
 		content: messageEl.value,
+		username,  // username: username
 	}
 
 	// Send (emit) the message to the server
@@ -120,6 +123,11 @@ usernameFormEl.addEventListener('submit', e => {
 
 	// Get username
 	username = (usernameFormEl.querySelector('#username') as HTMLInputElement).value.trim()
+
+	// If no username, NO CHAT FOR YOU
+	if (!username) {
+		return
+	}
 
 	// Show chat view
 	showChatView()
