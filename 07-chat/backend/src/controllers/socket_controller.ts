@@ -26,6 +26,9 @@ export const handleConnection = (socket: Socket<ClientToServerEvents, ServerToCl
 	socket.on('userJoin', (username, callback) => {
 		debug('👶🏽 User %s wants to join the chat', username)
 
+		// Let everyone know a new user has joined
+		socket.broadcast.emit('userJoined', username)
+
 		// Let user know they're welcome
 		callback(true)
 	})

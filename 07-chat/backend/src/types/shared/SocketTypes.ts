@@ -4,6 +4,7 @@ export {}
 export interface ServerToClientEvents {
 	hello: () => void
 	chatMessage: (message: ChatMessageData) => void
+	userJoined: (username: string) => void
 }
 
 // Events emitted by the client to the server
