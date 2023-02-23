@@ -106,6 +106,17 @@ socket.on('disconnect', () => {
 	console.log('💀 Disconnected from the server')
 })
 
+// Listen for when we're reconnected
+socket.io.on('reconnect', () => {
+	console.log('🍽️ Reconnected to the server')
+	// Broadcast userJoin event, but only if we were in the chat previously
+	if (username) {
+		socket.emit('userJoin', username, (success) => {
+			addNoticeToChat('You reconnected 🥳', Date.now())
+		})
+	}
+})
+
 // Listen for when the server says hello
 socket.on('hello', () => {
 	console.log('👋🏻 The nice server said Hello')
