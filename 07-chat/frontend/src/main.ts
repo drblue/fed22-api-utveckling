@@ -92,14 +92,29 @@ const showChatView = () => {
 
 // Show welcome view
 const showWelcomeView = () => {
+	const connectBtnEl = document.querySelector('#connectBtn') as HTMLButtonElement
+
+	// Clear room list and disable connect-button
+	connectBtnEl.disabled = true
+	const roomEl = document.querySelector('#room') as HTMLSelectElement
+
+
 	// Request a list of rooms from the server
 	console.log("🏨 Requesting rooms")
 	socket.emit('getRoomList', (rooms) => {
 		// We gots lots of rooms
 		console.log("YAY ROOMS!", rooms)
-	})
 
-	// Enable "Connect"-button once we have a room list
+		// Update #room with options for each room
+		roomEl.innerHTML = rooms
+			.map(room => `<option value="${room.id}">${room.name}</option>`)
+			.join('')
+
+
+		// Enable "Connect"-button once we have a room
+		connectBtnEl.disabled = false
+		
+	})
 
 	// Hide chat (if visible)
 	chatWrapperEl.classList.add('hide')
