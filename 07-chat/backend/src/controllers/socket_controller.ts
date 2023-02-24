@@ -33,7 +33,7 @@ export const handleConnection = (socket: Socket<ClientToServerEvents, ServerToCl
 	// Listen for incoming chat messages
 	socket.on('sendChatMessage', (message) => {
 		debug('📨 New chat message', socket.id, message)
-		socket.broadcast.emit('chatMessage', message)
+		socket.broadcast.to(message.roomId).emit('chatMessage', message)
 	})
 
 	// Listen for a user join request

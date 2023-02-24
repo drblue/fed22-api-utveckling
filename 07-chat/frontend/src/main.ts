@@ -172,13 +172,14 @@ socket.on('userJoined', (notice) => {
 messageFormEl.addEventListener('submit', e => {
 	e.preventDefault()
 
-	if (!messageEl.value.trim() || !username) {
+	if (!messageEl.value.trim() || !username || !roomId) {
 		return
 	}
 
 	// Construct message payload
 	const message: ChatMessageData = {
 		content: messageEl.value,
+		roomId,
 		timestamp: Date.now(),
 		username,  // username: username
 	}
