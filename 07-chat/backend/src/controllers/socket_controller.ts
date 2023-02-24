@@ -37,16 +37,19 @@ export const handleConnection = (socket: Socket<ClientToServerEvents, ServerToCl
 	})
 
 	// Listen for a user join request
-	socket.on('userJoin', (username, callback) => {
-		debug('👶🏽 User %s wants to join the chat', username)
+	socket.on('userJoin', (username, roomId, callback) => {
+		debug('👶🏽 User %s wants to join the room %s', username, roomId)
 
 		const notice: NoticeData = {
 			timestamp: Date.now(),
 			username,
 		}
 
+		// Add user to room `roomId
+		socket.join(roomId)
+
 		// Let everyone know a new user has joined
-		socket.broadcast.emit('userJoined', notice)
+		socket.broadcast.to(roomId).emit('userJoined', notice)
 
 		// Let user know they're welcome
 		callback(true)
