@@ -3,7 +3,7 @@
  */
 import Debug from 'debug'
 import { Socket } from 'socket.io'
-import { ClientToServerEvents, NoticeData, ServerToClientEvents } from '../types/shared/SocketTypes'
+import { ClientToServerEvents, NoticeData, ServerToClientEvents, UserJoinResult } from '../types/shared/SocketTypes'
 import prisma from '../prisma'
 
 // Create a new debug instance
@@ -37,8 +37,22 @@ export const handleConnection = (socket: Socket<ClientToServerEvents, ServerToCl
 	})
 
 	// Listen for a user join request
-	socket.on('userJoin', (username, roomId, callback) => {
+	socket.on('userJoin', async (username, roomId, callback) => {
 		debug('👶🏽 User %s wants to join the room %s', username, roomId)
+
+		// Get room from database
+		const room = await prisma.room.findUnique({
+			where: {
+				id: roomId,
+			}
+		})
+
+		if (!room) {
+			return callback({
+				success: false,
+				data: null,
+			})
+		}
 
 		const notice: NoticeData = {
 			timestamp: Date.now(),
@@ -52,7 +66,14 @@ export const handleConnection = (socket: Socket<ClientToServerEvents, ServerToCl
 		socket.broadcast.to(roomId).emit('userJoined', notice)
 
 		// Let user know they're welcome
-		callback(true)
+		callback({
+			success: true,
+			data: {
+				id: room.id,
+				name: room.name,
+				users: [],
+			},
+		})
 	})
 
 	// Handle user disconnecting
