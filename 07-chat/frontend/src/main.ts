@@ -126,8 +126,15 @@ const showWelcomeView = () => {
 // Update online users list
 const updateOnlineUsers = (users: User[]) => {
 	const onlineUsersEl = document.querySelector('#online-users') as HTMLUListElement
+
+	console.log("updateOnlineUsers:", users)
+
 	onlineUsersEl.innerHTML = users
-		.map(user => `<li>${user.name}</li>`)
+		.map(user =>
+			user.id === socket.id
+				? `<li class="me"><span class="fa-solid fa-user-astronaut"></span> ${user.name}</li>`
+				: `<li><span class="fa-solid fa-user-astronaut"></span> ${user.name}</li>`
+		)
 		.join('')
 }
 
