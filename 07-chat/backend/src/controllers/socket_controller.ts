@@ -96,7 +96,31 @@ export const handleConnection = (socket: Socket<ClientToServerEvents, ServerToCl
 	})
 
 	// Handle user disconnecting
-	socket.on('disconnect', () => {
+	socket.on('disconnect', async () => {
 		debug('✌🏻 A user disconnected', socket.id)
+
+		// Find room user was in (if any)
+		const user = await prisma.user.findUnique({
+			where: {
+				id: socket.id,
+			}
+		})
+
+
+		// If user wasn't in a room, just do nothing
+		if (!user) {
+			return
+		}
+
+		//Remove them from any room (if they were in a room)
+		await prisma.user.delete({
+			where: {
+				id: socket.id,
+			}
+		})
+
+		/**
+		 * Broadcast a new list
+		 */
 	})
 }
