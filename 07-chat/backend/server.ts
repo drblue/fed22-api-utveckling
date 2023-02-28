@@ -3,6 +3,7 @@ import http from 'http'
 import * as dotenv from 'dotenv'
 import { Server } from 'socket.io'
 import { handleConnection } from './src/controllers/socket_controller'
+import { deleteAllUsers } from './src/services/UserService'
 import {
 	ClientToServerEvents,
 	InterServerEvents,
@@ -35,9 +36,17 @@ io.on('connection', (socket) => {
 })
 
 /**
- * Listen on provided port, on all network interfaces.
+ * Delete all users from the database
  */
-httpServer.listen(PORT)
+deleteAllUsers()
+	.then(() => {
+		console.log("🧹 Deleted all users")
+
+		/**
+		 * Listen on provided port, on all network interfaces.
+		 */
+		httpServer.listen(PORT)
+	})
 
 /**
  * Event listener for HTTP server "error" event.
