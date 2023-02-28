@@ -94,13 +94,6 @@ const showChatView = () => {
 // Show welcome view
 const showWelcomeView = () => {
 	const connectBtnEl = document.querySelector('#connectBtn') as HTMLButtonElement
-
-	// Clear room list and disable connect-button
-	connectBtnEl.disabled = true
-	const roomEl = document.querySelector('#room') as HTMLSelectElement
-
-
-	const connectBtnEl = document.querySelector('#connectBtn') as HTMLButtonElement
 	const roomEl = document.querySelector('#room') as HTMLSelectElement
 
 	// Clear room list and disable connect-button
@@ -223,7 +216,6 @@ usernameFormEl.addEventListener('submit', e => {
 	// before showing the chat view
 	socket.emit('userJoin', username, roomId, (result) => {
 		console.log("Join was success?", result)
-
 		if (!result.success || !result.data) {
 			alert("NO ACCESS 4 US")
 			return
