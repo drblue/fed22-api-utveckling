@@ -62,6 +62,10 @@ export const handleConnection = (socket: Socket<ClientToServerEvents, ServerToCl
 		// Add user to room `roomId
 		socket.join(roomId)
 
+		// Create a User in the database and set roomId
+
+		// Retrieve a list of Users for the room
+
 		// Let everyone know a new user has joined
 		socket.broadcast.to(roomId).emit('userJoined', notice)
 
@@ -71,7 +75,7 @@ export const handleConnection = (socket: Socket<ClientToServerEvents, ServerToCl
 			data: {
 				id: room.id,
 				name: room.name,
-				users: [],
+				users: [],  // Send the user the list of users in the room
 			},
 		})
 	})
