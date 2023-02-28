@@ -228,6 +228,12 @@ usernameFormEl.addEventListener('submit', e => {
 		const chatTitleEl = document.querySelector('#chat-title') as HTMLHeadingElement
 		chatTitleEl.innerText = roomInfo.name
 
+		// Update userlist with users in the room
+		const onlineUsersEl = document.querySelector('#online-users') as HTMLUListElement
+		onlineUsersEl.innerHTML = roomInfo.users
+			.map(user => `<li>${user.name}</li>`)
+			.join('')
+
 		// Yay we're allowed to join
 		console.log("Showing chat view")
 		showChatView()
