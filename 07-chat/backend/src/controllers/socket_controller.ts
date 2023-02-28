@@ -62,6 +62,25 @@ export const handleConnection = (socket: Socket<ClientToServerEvents, ServerToCl
 		// Add user to room `roomId
 		socket.join(roomId)
 
+
+		//Create a User in the DataBase and set roomId
+		const user = await prisma.user.create({
+			data: {
+				id: socket.id,
+				name: username,
+				roomId,
+			}
+		})
+
+		//Retreieve a List of Users for the room
+		const usersInRoom = await prisma.user.findMany({
+			where: {
+				roomId,
+			}
+		})
+
+		debug("List of users in room %s: %O", roomId, usersInRoom)
+
 		// Let everyone know a new user has joined
 		socket.broadcast.to(roomId).emit('userJoined', notice)
 
@@ -71,7 +90,7 @@ export const handleConnection = (socket: Socket<ClientToServerEvents, ServerToCl
 			data: {
 				id: room.id,
 				name: room.name,
-				users: [],
+				users: usersInRoom, // Send a user the list of users in the room
 			},
 		})
 	})

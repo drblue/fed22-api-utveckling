@@ -25,7 +25,7 @@ let roomId: string | null = null
 let username: string | null = null
 
 // Connect to Socket.IO server
-const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(SOCKET_HOST)
+const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io (SOCKET_HOST)
 
 // Add a message to the chat
 const addMessageToChat = (message: ChatMessageData, ownMessage = false) => {
@@ -140,7 +140,7 @@ socket.io.on('reconnect', () => {
 	console.log('🍽️ Reconnected to the server')
 	// Broadcast userJoin event, but only if we were in the chat previously
 	if (username && roomId) {
-		socket.emit('userJoin', username, roomId, (success) => {
+		socket.emit('userJoin', username, roomId, (_success) => {
 			addNoticeToChat('You reconnected 🥳', Date.now())
 		})
 	}
