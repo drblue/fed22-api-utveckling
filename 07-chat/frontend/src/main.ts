@@ -4,6 +4,7 @@ import {
 	ChatMessageData,
 	ClientToServerEvents,
 	ServerToClientEvents,
+	User,
 } from '@backend/types/shared/SocketTypes'
 
 const SOCKET_HOST = import.meta.env.VITE_APP_SOCKET_HOST
@@ -122,6 +123,14 @@ const showWelcomeView = () => {
 	startEl.classList.remove('hide')
 }
 
+// Update online users list
+const updateOnlineUsers = (users: User[]) => {
+	const onlineUsersEl = document.querySelector('#online-users') as HTMLUListElement
+	onlineUsersEl.innerHTML = users
+		.map(user => `<li>${user.name}</li>`)
+		.join('')
+}
+
 // Listen for when connection is established
 socket.on('connect', () => {
 	console.log('💥 Connected to the server', socket.id)
@@ -166,6 +175,11 @@ socket.on('userJoined', (notice) => {
 	console.log('👶🏽 A new user joined the chat', notice)
 
 	addNoticeToChat(`${notice.username} has joined the chat`, notice.timestamp)
+})
+
+// Listen for an updated list of online users
+socket.on('onlineUsers', (users) => {
+	updateOnlineUsers(users)
 })
 
 // Send a message to the server when form is submitted
@@ -229,10 +243,7 @@ usernameFormEl.addEventListener('submit', e => {
 		chatTitleEl.innerText = roomInfo.name
 
 		// Update userlist with users in the room
-		const onlineUsersEl = document.querySelector('#online-users') as HTMLUListElement
-		onlineUsersEl.innerHTML = roomInfo.users
-			.map(user => `<li>${user.name}</li>`)
-			.join('')
+		updateOnlineUsers(roomInfo.users)
 
 		// Yay we're allowed to join
 		console.log("Showing chat view")
