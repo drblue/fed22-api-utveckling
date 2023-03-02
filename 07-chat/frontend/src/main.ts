@@ -28,6 +28,17 @@ let username: string | null = null
 // Connect to Socket.IO server
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(SOCKET_HOST)
 
+// Add messages to the chat
+const addMessagesToChat = (messages: ChatMessageData[]) => {
+	// Clear any previous messages from the chat
+	messagesEl.innerHTML = ''
+
+	// Loop over messages and add them to the chat
+	messages.forEach(message => {
+		addMessageToChat(message)
+	})
+}
+
 // Add a message to the chat
 const addMessageToChat = (message: ChatMessageData, ownMessage = false) => {
 	// Create a new LI element
@@ -248,6 +259,9 @@ usernameFormEl.addEventListener('submit', e => {
 		// Update chat view title with room name
 		const chatTitleEl = document.querySelector('#chat-title') as HTMLHeadingElement
 		chatTitleEl.innerText = roomInfo.name
+
+		// Add chat history to chat
+		addMessagesToChat(roomInfo.messages)
 
 		// Update userlist with users in the room
 		updateOnlineUsers(roomInfo.users)

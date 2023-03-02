@@ -1,7 +1,7 @@
-import { Room, User } from '@prisma/client'
+import { Message, Room, User } from '@prisma/client'
 
 // Re-export Prisma models so frontend is happy
-export { Room, User }
+export { Message, Room, User }
 
 // Events emitted by the server to the client
 export interface ServerToClientEvents {
@@ -38,6 +38,7 @@ export interface NoticeData {
 
 // Room info payload
 export interface RoomInfoData extends Room {
+	messages: Message[]
 	users: User[]
 }
 
