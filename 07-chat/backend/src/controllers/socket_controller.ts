@@ -5,6 +5,7 @@ import Debug from 'debug'
 import { Socket } from 'socket.io'
 import { ClientToServerEvents, NoticeData, ServerToClientEvents, UserJoinResult } from '../types/shared/SocketTypes'
 import prisma from '../prisma'
+import { createMessage } from '../services/MessageService'
 import { getRooms, getRoom } from './../services/RoomService'
 import { getUsersInRoom } from '../services/UserService'
 
@@ -33,10 +34,14 @@ export const handleConnection = (socket: Socket<ClientToServerEvents, ServerToCl
 	})
 
 	// Listen for incoming chat messages
-	socket.on('sendChatMessage', (message) => {
+	socket.on('sendChatMessage', async (message) => {
 		debug('📨 New chat message', socket.id, message)
-		// Save message to db `createMessage(message)`
+
+		// Broadcast message to everyone else in the room
 		socket.broadcast.to(message.roomId).emit('chatMessage', message)
+
+		// Save message to db `createMessage(message)`
+		await createMessage(message)
 	})
 
 	// Listen for a user join request
