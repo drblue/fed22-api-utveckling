@@ -18,7 +18,7 @@ and save it to the database.
 
 Create the service `MessageService` and the method `createMessage(message)`.
 
-## Step 3
+## ✅ Step 3
 
 When a user joins a room, retrieve the latest messages sent to
 the room (sent during the past 24 hours, max 100 messages).
