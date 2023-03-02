@@ -263,9 +263,6 @@ usernameFormEl.addEventListener('submit', e => {
 		// Add chat history to chat
 		addMessagesToChat(roomInfo.messages)
 
-		// Update userlist with users in the room
-		updateOnlineUsers(roomInfo.users)
-
 		// Yay we're allowed to join
 		console.log("Showing chat view")
 		showChatView()

@@ -39,7 +39,6 @@ export interface NoticeData {
 // Room info payload
 export interface RoomInfoData extends Room {
 	messages: Message[]
-	users: User[]
 }
 
 // User Join result

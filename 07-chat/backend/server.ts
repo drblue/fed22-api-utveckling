@@ -32,7 +32,7 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEve
  */
 io.on('connection', (socket) => {
 	// Yay someone connected to me
-	handleConnection(socket)
+	handleConnection(socket, io)
 })
 
 /**

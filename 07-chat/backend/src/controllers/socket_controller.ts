@@ -2,7 +2,7 @@
  * Socket Controller
  */
 import Debug from 'debug'
-import { Socket } from 'socket.io'
+import { Socket, Server } from 'socket.io'
 import { ClientToServerEvents, NoticeData, ServerToClientEvents, UserJoinResult } from '../types/shared/SocketTypes'
 import prisma from '../prisma'
 import { createMessage } from '../services/MessageService'
@@ -13,7 +13,7 @@ import { getUsersInRoom } from '../services/UserService'
 const debug = Debug('chat:socket_controller')
 
 // Handle the user connecting
-export const handleConnection = (socket: Socket<ClientToServerEvents, ServerToClientEvents>) => {
+export const handleConnection = (socket: Socket<ClientToServerEvents, ServerToClientEvents>, io: Server<ClientToServerEvents, ServerToClientEvents>) => {
 	debug('🙋🏼 A user connected', socket.id)
 
 	// Say hello to the user
@@ -90,9 +90,6 @@ export const handleConnection = (socket: Socket<ClientToServerEvents, ServerToCl
 		// Let everyone know a new user has joined
 		socket.broadcast.to(roomId).emit('userJoined', notice)
 
-		// Broadcast an updated userlist to everyone (else) in the room
-		socket.broadcast.to(roomId).emit('onlineUsers', usersInRoom)
-
 		// Let user know they're welcome
 		callback({
 			success: true,
@@ -100,9 +97,11 @@ export const handleConnection = (socket: Socket<ClientToServerEvents, ServerToCl
 				id: room.id,
 				name: room.name,
 				messages: room.messages,
-				users: usersInRoom,  // Send the user the list of users in the room
 			},
 		})
+
+		// Broadcast a userlist to everyone (including the user joining) in the room
+		io.to(roomId).emit('onlineUsers', usersInRoom)
 	})
 
 	// Handle user disconnecting
