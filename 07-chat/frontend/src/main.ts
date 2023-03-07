@@ -167,7 +167,7 @@ socket.io.on('reconnect', () => {
 	console.log('🍽️ Reconnected to the server')
 	// Broadcast userJoin event, but only if we were in the chat previously
 	if (username && roomId) {
-		socket.emit('userJoin', username, roomId, (success) => {
+		socket.emit('userJoin', username, roomId, () => {
 			addNoticeToChat('You reconnected 🥳', Date.now())
 		})
 	}
