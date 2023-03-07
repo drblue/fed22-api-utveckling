@@ -1,4 +1,4 @@
-import { Message, Room, User } from '@prisma/client'
+import { Message, Room, User } from './Models'
 
 // Re-export Prisma models so frontend is happy
 export { Message, Room, User }
