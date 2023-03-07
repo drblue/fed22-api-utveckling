@@ -1,7 +1,7 @@
 import { Message, Room, User } from './Models'
 
 // Re-export Prisma models so frontend is happy
-export { Message, Room, User }
+export type { Message, Room, User }
 
 // Events emitted by the server to the client
 export interface ServerToClientEvents {
